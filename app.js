@@ -17,6 +17,39 @@ function persistScores() {
   localStorage.setItem('eval_scores_' + EVAL_DATA.language, JSON.stringify(scores));
 }
 
+// Body-level tooltip for .hint-icon elements (avoids overflow/stacking-context clipping)
+function initTooltips() {
+  const tip = document.createElement('div');
+  tip.id = 'js-tooltip';
+  document.body.appendChild(tip);
+
+  document.addEventListener('mouseover', e => {
+    const icon = e.target.closest('[data-tooltip]');
+    if (!icon) return;
+    tip.textContent = icon.dataset.tooltip;
+    tip.style.display = 'block';
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (tip.style.display === 'none') return;
+    const GAP = 10;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    let x = e.clientX - tw - GAP;
+    let y = e.clientY - th / 2;
+    if (x < GAP) x = e.clientX + GAP;
+    if (y < GAP) y = GAP;
+    if (y + th > vh - GAP) y = vh - th - GAP;
+    tip.style.left = x + 'px';
+    tip.style.top  = y + 'px';
+  });
+
+  document.addEventListener('mouseout', e => {
+    if (!e.target.closest('[data-tooltip]')) return;
+    tip.style.display = 'none';
+  });
+}
+
 // Calculate sticky top offset for scoring panel based on actual header heights
 function updateScoringTop() {
   const header = document.querySelector('.header');
@@ -33,6 +66,7 @@ function init() {
   updateProgress();
   updateScoringTop();
   window.addEventListener('resize', updateScoringTop);
+  initTooltips();
   
   // Language select
   const langSelect = document.getElementById('lang-select');
