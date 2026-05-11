@@ -39,9 +39,10 @@
           <option value="en">🌐 EN</option>
         </select>
         <button class="btn-guide" onclick="openGuide()">📖 Guide</button>
-        <div class="btn-group">
-          <button class="btn-download" onclick="exportResults()">JSON</button>
-          <button class="btn-download" onclick="exportCSV()">CSV</button>
+        <div class="export-group">
+          <span class="export-label">完成后导出 / Export when done:</span>
+          <button class="btn-download" onclick="exportCSV()">⬇ CSV</button>
+          <button class="btn-download btn-download-json" onclick="exportResults()">⬇ JSON</button>
         </div>
       </div>
     </header>
@@ -51,6 +52,7 @@
       <div class="question-bar-top">
         <div id="question-text"></div>
         <span id="question-profile" class="question-profile"></span>
+        <span id="question-account" class="question-account"></span>
         <div class="grader-tags" id="grader-tags"></div>
         <button class="btn-rubric" onclick="toggleRubric()" id="btn-rubric">📋 Scoring Rubric</button>
       </div>
