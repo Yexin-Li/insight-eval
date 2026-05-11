@@ -529,8 +529,8 @@ body {
   flex-direction: column;
   gap: 14px;
   position: sticky;
-  top: 8px;
-  max-height: calc(100vh - 24px);
+  top: var(--scoring-top, 148px);
+  max-height: calc(100vh - var(--scoring-top, 148px) - 16px);
   overflow-y: auto;
 }
 

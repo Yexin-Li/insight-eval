@@ -17,12 +17,22 @@ function persistScores() {
   localStorage.setItem('eval_scores_' + EVAL_DATA.language, JSON.stringify(scores));
 }
 
+// Calculate sticky top offset for scoring panel based on actual header heights
+function updateScoringTop() {
+  const header = document.querySelector('.header');
+  const questionBar = document.querySelector('.question-bar');
+  const top = (header?.offsetHeight || 0) + (questionBar?.offsetHeight || 0) + 8;
+  document.documentElement.style.setProperty('--scoring-top', top + 'px');
+}
+
 // Initialize the app
 function init() {
   loadScores();
   populateQuestionSelect();
   renderQuestion(0);
   updateProgress();
+  updateScoringTop();
+  window.addEventListener('resize', updateScoringTop);
   
   // Language select
   const langSelect = document.getElementById('lang-select');
