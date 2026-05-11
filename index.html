@@ -43,10 +43,15 @@
       <nav class="answer-tabs" id="answer-tabs"></nav>
     </section>
 
-    <!-- Rubric panel (collapsible) -->
-    <section class="rubric-panel hidden" id="rubric-panel">
+    <!-- Rubric drawer (right-side) -->
+    <div class="rubric-overlay hidden" id="rubric-overlay" onclick="toggleRubric()"></div>
+    <aside class="rubric-drawer hidden" id="rubric-panel">
+      <div class="rubric-drawer-header">
+        <span>📋 评分标准参考</span>
+        <button class="rubric-close" onclick="toggleRubric()">×</button>
+      </div>
       <div id="rubric-content"></div>
-    </section>
+    </aside>
 
     <!-- Single active answer view -->
     <section class="answers-stack" id="answers-stack"></section>
