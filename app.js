@@ -278,7 +278,7 @@ function buildScoringFormHTML(q, ans) {
         <div class="score-group">
           <label class="label-with-hint">
             ${grader} — ${rubric.name}
-            <span class="hint-icon" title="${rubric.description}">?</span>
+            <span class="hint-icon" data-tooltip="${rubric.description}">?</span>
           </label>
           <select id="score_${q.id}_${ans.label}_${grader}" onchange="onScoreChange()">
             <option value="">${L.selectScore}</option>
