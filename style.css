@@ -692,7 +692,7 @@ body {
 .hint-icon::after {
   content: attr(data-tooltip);
   position: absolute;
-  left: 20px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
   background: #333;
