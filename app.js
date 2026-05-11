@@ -235,11 +235,6 @@ function buildScoringFormHTML(q, ans) {
   // Localized labels
   const L = isEn ? {
     selectScore: 'Select score',
-    s1: '1 — Fundamentally wrong / broken',
-    s2: '2 — Shallow or off-focus',
-    s3: '3 — Right direction but incomplete',
-    s4: '4 — Mostly holds, minor gaps',
-    s5: '5 — Complete and convincing',
     na: 'N/A — Not applicable',
     confidence: 'Confidence',
     high: 'High',
@@ -249,11 +244,6 @@ function buildScoringFormHTML(q, ans) {
     ratHint: '1-2 sentences of evidence for your scores',
   } : {
     selectScore: '请选择分数',
-    s1: '1 — 核心错误/基本不成立',
-    s2: '2 — 明显浅或失焦',
-    s3: '3 — 方向对但不完整',
-    s4: '4 — 基本成立，小瑕疵',
-    s5: '5 — 完整且有说服力',
     na: 'N/A — 本题不适用',
     confidence: 'Confidence 置信度',
     high: '高 / High',
@@ -278,11 +268,7 @@ function buildScoringFormHTML(q, ans) {
           </label>
           <select id="score_${q.id}_${ans.label}_${grader}" onchange="onScoreChange()">
             <option value="">${L.selectScore}</option>
-            <option value="1" ${savedScore === 1 ? 'selected' : ''}>${L.s1}</option>
-            <option value="2" ${savedScore === 2 ? 'selected' : ''}>${L.s2}</option>
-            <option value="3" ${savedScore === 3 ? 'selected' : ''}>${L.s3}</option>
-            <option value="4" ${savedScore === 4 ? 'selected' : ''}>${L.s4}</option>
-            <option value="5" ${savedScore === 5 ? 'selected' : ''}>${L.s5}</option>
+            ${[1,2,3,4,5].map(n => `<option value="${n}" ${savedScore === n ? 'selected' : ''}>${n} — ${rubric.scores[String(n)]}</option>`).join('')}
             <option value="N/A" ${savedScore === 'N/A' ? 'selected' : ''}>${L.na}</option>
           </select>
         </div>
