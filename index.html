@@ -4,11 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Insight Agent Blind Evaluation</title>
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=11">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <div id="app">
+
+  <!-- Login screen — shown when not authenticated -->
+  <div id="login-screen">
+    <div id="login-box">
+      <h2>Insight Eval</h2>
+      <p>请输入访问密码 / Enter password</p>
+      <input type="password" id="login-password" placeholder="Password"
+             onkeydown="if(event.key==='Enter') doLogin()">
+      <button onclick="doLogin()">进入 / Enter</button>
+      <p id="login-error">密码错误 / Wrong password</p>
+    </div>
+  </div>
+
+  <div id="app" style="display:none">
     <!-- Header -->
     <header class="header">
       <h1>Insight Eval</h1>
@@ -37,6 +50,7 @@
     <section class="question-bar">
       <div class="question-bar-top">
         <div id="question-text"></div>
+        <span id="question-profile" class="question-profile"></span>
         <div class="grader-tags" id="grader-tags"></div>
         <button class="btn-rubric" onclick="toggleRubric()" id="btn-rubric">📋 Scoring Rubric</button>
       </div>
@@ -78,6 +92,28 @@
   </div>
 
   <script>
+    // ── Access control ──────────────────────────────────────────────
+    // Change this password to whatever you want.
+    const ACCESS_PASSWORD = 'insight2026';
+
+    function doLogin() {
+      const pw = document.getElementById('login-password').value;
+      if (pw === ACCESS_PASSWORD) {
+        sessionStorage.setItem('eval_auth', '1');
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = '';
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+      }
+    }
+
+    // If already authenticated this session, skip login screen
+    if (sessionStorage.getItem('eval_auth') === '1') {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = '';
+    }
+    // ────────────────────────────────────────────────────────────────
+
     // Detect language from URL param, default to zh
     const urlParams = new URLSearchParams(window.location.search);
     const lang = urlParams.get('lang') || 'zh';
@@ -85,6 +121,6 @@
     const v = Date.now();
     document.write('<script src="data_' + lang + '.js?v=' + v + '"><\/script>');
   </script>
-  <script src="app.js?v=14"></script>
+  <script src="app.js?v=15"></script>
 </body>
 </html>

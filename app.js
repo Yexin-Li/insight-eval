@@ -145,6 +145,8 @@ function renderQuestion(idx) {
   // Question text
   const langKey = EVAL_DATA.language === 'zh' ? 'question_zh' : 'question_en';
   document.getElementById('question-text').textContent = `[${q.id}] ${q.text || q[langKey] || ''}`;
+  const profileEl = document.getElementById('question-profile');
+  if (profileEl) profileEl.textContent = q.profile_name || '';
   
   // Grader tags
   const tagsEl = document.getElementById('grader-tags');
