@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insight Agent Blind Evaluation</title>
+  <link rel="stylesheet" href="style.css?v=8">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <h1>Insight Eval</h1>
+      <div class="header-controls">
+        <input type="text" id="reviewer-name" placeholder="Reviewer">
+        <select id="question-select"></select>
+        <div class="btn-group">
+          <button class="btn-nav" id="btn-prev" onclick="navigate(-1)">←</button>
+          <button class="btn-nav" id="btn-next" onclick="navigate(1)">→</button>
+        </div>
+        <span id="progress-badge">0/0</span>
+        <span id="autosave-indicator" class="autosave-indicator" title="Auto-saved">✓</span>
+        <select id="lang-select" onchange="switchLang(this.value)">
+          <option value="zh">🌐 中文</option>
+          <option value="en">🌐 EN</option>
+        </select>
+        <button class="btn-guide" onclick="openGuide()">📖 Guide</button>
+        <div class="btn-group">
+          <button class="btn-download" onclick="exportResults()">JSON</button>
+          <button class="btn-download" onclick="exportCSV()">CSV</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Question display with answer tabs inline -->
+    <section class="question-bar">
+      <div class="question-bar-top">
+        <div id="question-text"></div>
+        <div class="grader-tags" id="grader-tags"></div>
+        <button class="btn-rubric" onclick="toggleRubric()" id="btn-rubric">📋 Scoring Rubric</button>
+      </div>
+      <nav class="answer-tabs" id="answer-tabs"></nav>
+    </section>
+
+    <!-- Rubric panel (collapsible) -->
+    <section class="rubric-panel hidden" id="rubric-panel">
+      <div id="rubric-content"></div>
+    </section>
+
+    <!-- Single active answer view -->
+    <section class="answers-stack" id="answers-stack"></section>
+
+    <!-- Global actions -->
+    <section class="global-actions" style="display: none;">
+      <button class="btn-export" onclick="exportResults()">📥 Export All Results (JSON)</button>
+      <button class="btn-export-csv" onclick="exportCSV()">📥 Export All Results (CSV)</button>
+    </section>
+
+    <!-- Rater guide modal -->
+    <div class="modal-overlay hidden" id="guide-modal" onclick="closeGuideIfOverlay(event)">
+      <div class="modal-box" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeGuide()" aria-label="Close">×</button>
+        <div class="modal-content" id="guide-content"></div>
+        <div class="modal-footer">
+          <label class="modal-dont-show">
+            <input type="checkbox" id="dont-show-guide"> Don't show this automatically 不再自动弹出
+          </label>
+          <button class="btn-primary" onclick="closeGuide()">Got it 知道了</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Detect language from URL param, default to zh
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang') || 'zh';
+    // Cache-bust the data and app script so updates always show
+    const v = Date.now();
+    document.write('<script src="data_' + lang + '.js?v=' + v + '"><\/script>');
+  </script>
+  <script src="app.js?v=14"></script>
+</body>
+</html>
