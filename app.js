@@ -23,18 +23,16 @@ function initTooltips() {
   tip.id = 'js-tooltip';
   document.body.appendChild(tip);
 
-  document.addEventListener('mouseover', e => {
-    const icon = e.target.closest('[data-tooltip]');
-    if (!icon) return;
+  function showTip(icon, e) {
     tip.textContent = icon.dataset.tooltip;
     tip.style.display = 'block';
-  });
-
-  document.addEventListener('mousemove', e => {
-    if (tip.style.display === 'none') return;
-    const GAP = 10;
+    moveTip(e);
+  }
+  function hideTip() { tip.style.display = 'none'; }
+  function moveTip(e) {
+    const GAP = 12;
     const tw = tip.offsetWidth, th = tip.offsetHeight;
-    const vw = window.innerWidth, vh = window.innerHeight;
+    const vh = window.innerHeight;
     let x = e.clientX - tw - GAP;
     let y = e.clientY - th / 2;
     if (x < GAP) x = e.clientX + GAP;
@@ -42,11 +40,16 @@ function initTooltips() {
     if (y + th > vh - GAP) y = vh - th - GAP;
     tip.style.left = x + 'px';
     tip.style.top  = y + 'px';
-  });
+  }
 
-  document.addEventListener('mouseout', e => {
-    if (!e.target.closest('[data-tooltip]')) return;
-    tip.style.display = 'none';
+  // Use event delegation on document for dynamically created hint icons
+  document.addEventListener('mouseover', e => {
+    const icon = e.target.closest('[data-tooltip]');
+    if (icon) showTip(icon, e);
+    else hideTip();
+  });
+  document.addEventListener('mousemove', e => {
+    if (tip.style.display !== 'none') moveTip(e);
   });
 }
 
