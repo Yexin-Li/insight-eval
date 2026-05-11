@@ -450,7 +450,7 @@ body {
 .answer-card-body {
   display: grid;
   grid-template-columns: minmax(0, 1000px) 360px;
-  min-height: 0;
+  align-items: start;
 }
 
 .answer-body {
@@ -478,8 +478,6 @@ body {
 .answer-scoring {
   padding: 20px;
   background: #fafbfc;
-  max-height: 600px;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 14px;
